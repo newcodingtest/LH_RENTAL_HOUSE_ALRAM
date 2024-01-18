@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
 import java.net.URL
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 private val logger = KotlinLogging.logger {}
 @Service
@@ -24,11 +26,16 @@ class LhOpenApiService(
       * &UPP_AIS_TP_CD=06
       * */
      fun searchHouse(url: String, cityCode: String, kindOfHouse: String): String {
-          val request = URL(url + "&CNP_CD=%s" + "&UPP_AIS_TP_CD=%s".format(cityCode, kindOfHouse))
+          var hanguel = URLDecoder.decode("공고중","UTF-8");
+
+          var request = url+"${hanguel}&CNP_CD=${cityCode}&UPP_AIS_TP_CD=${kindOfHouse}"
+
+
+          //val request = URL(url + "&CNP_CD=%s" + "&UPP_AIS_TP_CD=%s".format(cityCode, kindOfHouse))
 
           logger.info { request }
 
-          return restTemplate.getForObject(url);
+          return restTemplate.getForObject(request);
      }
 
 
