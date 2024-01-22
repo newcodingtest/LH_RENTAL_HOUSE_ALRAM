@@ -35,6 +35,9 @@ dependencies {
 
     // 코틀린 log
     implementation ("io.github.microutils:kotlin-logging:3.0.5")
+
+    //레디스 사용
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 }
 
 tasks.withType<KotlinCompile> {

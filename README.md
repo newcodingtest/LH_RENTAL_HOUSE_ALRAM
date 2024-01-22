@@ -1,0 +1,1 @@
+![image](https://github.com/newcodingtest/hexagonal-architecture/assets/57785267/f61a97d6-8050-4b84-83d7-d1c0348b2b79)

@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  redis:
+    container_name: redis
+    hostname: redis6379
+    network_mode: "host"
+    image: redis:latest
+    command: redis-server
+    volumes:
+      - "/hdd/apps/redis/data:/data"
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 6379:6379
