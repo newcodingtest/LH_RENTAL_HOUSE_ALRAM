@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 lh:
   servicekey:
     decode: OPrzGNbeGKWMffAEpVmOkqzrC9FjbuvyHR/3DWvQFtl+rPp0mmSv8nR6y8j6pnEr3S6KQltHw/uSCU+evaeyKA==
@@ -5,4 +8,16 @@ lh:
 
 openApi:
   call:
-    cron:
+    cron: 0 0/1 * * * *
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.0.190:3306/atm?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    redis:
+      host: 192.168.0.190
+      port: 6379

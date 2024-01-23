@@ -38,6 +38,13 @@ dependencies {
 
     //레디스 사용
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
+    //Spring Jdbc batch
+    implementation("org.springframework:spring-jdbc:6.1.3")
+
+    //Spring Data JPA
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.2")
+
 }
 
 tasks.withType<KotlinCompile> {
