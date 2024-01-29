@@ -5,6 +5,6 @@ import lombok.Getter
 
 @Getter
 class LhNotice(
-     var id: Long,
-     var content: String
+     var id: Long?,
+     var content: String?
 )

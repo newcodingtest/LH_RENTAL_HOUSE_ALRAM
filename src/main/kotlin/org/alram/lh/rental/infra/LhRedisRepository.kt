@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 
-@Repository
-interface LhRedisRepository: CrudRepository<RedisEntity,Long>
+
+//interface LhRedisRepository: CrudRepository<RedisEntity,Long>

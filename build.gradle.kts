@@ -5,6 +5,10 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     kotlin("jvm") version "1.7.0"
     kotlin("plugin.spring") version "1.7.0"
+    kotlin("plugin.jpa") version "1.8.22"
+    id ("org.jetbrains.kotlin.plugin.allopen") version "1.8.22"
+    id ("org.jetbrains.kotlin.plugin.noarg") version "1.8.22"
+
 }
 
 group = "com.example"
@@ -22,6 +26,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -45,6 +50,22 @@ dependencies {
     //Spring Data JPA
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.2")
 
+    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
+
+    //mysql, mariadb
+    implementation("com.mysql:mysql-connector-j:8.3.0")
+
+    implementation("org.jetbrains.kotlin.plugin.jpa:org.jetbrains.kotlin.plugin.jpa.gradle.plugin:1.9.22")
+    implementation("org.jetbrains.kotlin:kotlin-allopen:1.9.22")
+
+    implementation("com.github.consoleau:kassava:2.1.0")
+
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
 }
 
 tasks.withType<KotlinCompile> {

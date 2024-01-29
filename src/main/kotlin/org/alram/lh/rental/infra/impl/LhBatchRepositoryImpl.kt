@@ -28,7 +28,7 @@ class LhBatchRepositoryImpl(
                 @Throws(SQLException::class)
                 override fun setValues(ps: PreparedStatement, i: Int) {
                     var notice = notices.get(i)
-                    ps.setLong(1, notice.id)
+                    ps.setLong(1, notice.id?:1)
                     ps.setString(2, notice.content)
                 }
 

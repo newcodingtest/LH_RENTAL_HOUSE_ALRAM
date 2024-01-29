@@ -18,7 +18,7 @@ class LhOpenApiScheduler(
 
     //db batch insert
     @Scheduled(cron = "\${openApi.call.cron}")
-    private fun create(value: String){
+    private fun create(){
         notices.clear()
 
         val value  = lhOpenApiServiceImpl.searchHouse("http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1",
