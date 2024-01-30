@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets
 private val logger = KotlinLogging.logger {}
 @Service
 @RequiredArgsConstructor
-class LhOpenApiServiceImpl(
+class LhOpenApiCall(
      private val restTemplate: RestTemplate
 ) {
      val panSS: String = URLEncoder

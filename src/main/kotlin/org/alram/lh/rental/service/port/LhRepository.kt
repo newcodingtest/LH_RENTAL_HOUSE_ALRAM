@@ -4,6 +4,6 @@ import org.alram.lh.rental.domain.LhNotice
 
 interface LhRepository {
     fun create(lhNotice: LhNotice)
-    fun searchById(id: Long): LhNotice
+    fun searchByCode(code: Long): LhNotice
 
 }

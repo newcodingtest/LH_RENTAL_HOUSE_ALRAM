@@ -5,6 +5,7 @@ import mu.KotlinLogging
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.URLEncoder
@@ -24,6 +25,7 @@ class LhOpenApiServiceImpl_V1(
      val log = KotlinLogging.logger {}
 
 
+     @Transactional(readOnly = true)
      fun searchNotice(cityCode: String, kindOfHouse: String): String {
           
           /**

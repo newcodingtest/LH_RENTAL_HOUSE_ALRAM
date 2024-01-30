@@ -68,6 +68,10 @@ allOpen {
     annotation("jakarta.persistence.MappedSuperclass")
 }
 
+noArg {
+    annotation("javax.persistence.Entity")
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += "-Xjsr305=strict"

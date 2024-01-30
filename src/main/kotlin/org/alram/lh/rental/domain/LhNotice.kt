@@ -1,10 +1,7 @@
 package org.alram.lh.rental.domain
 
-import lombok.AllArgsConstructor
-import lombok.Getter
 
-@Getter
-class LhNotice(
-     var id: Long?,
-     var content: String?
+data class LhNotice(
+     val code: Long,
+     val content: String
 )

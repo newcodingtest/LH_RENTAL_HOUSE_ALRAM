@@ -1,17 +1,18 @@
 package org.alram.lh.rental.service
 
 import lombok.RequiredArgsConstructor
+import mu.KotlinLogging
 import org.alram.lh.rental.domain.LhNotice
 import org.alram.lh.rental.service.port.LhBatchRepository
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import org.springframework.web.client.RestTemplate
-import java.util.Arrays
+
+private val logger = KotlinLogging.logger {}
 
 @Component
 @RequiredArgsConstructor
 class LhOpenApiScheduler(
-    private val lhOpenApiServiceImpl: LhOpenApiServiceImpl,
+    private val lhOpenApiServiceImpl: LhOpenApiCall,
     private val lhBatchRepository: LhBatchRepository
     ) {
     private val notices: ArrayList<LhNotice> = ArrayList()
@@ -26,9 +27,11 @@ class LhOpenApiScheduler(
             "29",
             "06").body?:""
 
-        val notice = LhNotice(2906,
-                                value)
+        logger.info { "request ${value}"}
+        val notice = LhNotice(code = 2906,
+            content = value)
 
+        logger.info { "notice ${notice}" }
         notices.add(notice)
 
         lhBatchRepository.save(notices)

@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets
 
 @SpringBootTest
 class LhOpenApiServiceTest @Autowired constructor(
-    val lhOpenApiServiceImpl: LhOpenApiServiceImpl,
+    val lhOpenApiServiceImpl: LhOpenApiCall,
     val restTemplate: RestTemplate
 
 ) {
