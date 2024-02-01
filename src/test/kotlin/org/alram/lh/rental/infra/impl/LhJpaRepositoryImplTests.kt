@@ -28,7 +28,7 @@ class LhJpaRepositoryImplTests @Autowired constructor(
     }
 
     @Test
-    fun code로_조회할_수_있다(){
+    fun code로_데이터를_조회할_수_있다(){
         //given
         val code = 2906L
 
@@ -38,5 +38,17 @@ class LhJpaRepositoryImplTests @Autowired constructor(
         Assertions.assertNotNull(expected)
 
         print(expected)
+    }
+
+    @Test
+    fun 존재하지_않는_code로_조회할때_NoSuchElementException_이_된다(){
+        //given
+        val code = 9999L
+
+        //when-then
+        Assertions.assertThrows(NoSuchElementException::class.java){
+            lhJpaRepositoryImpl.searchByCode(code)
+        }
+
     }
 }

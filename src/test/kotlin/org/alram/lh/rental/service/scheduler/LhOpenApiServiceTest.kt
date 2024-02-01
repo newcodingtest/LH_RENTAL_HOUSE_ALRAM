@@ -1,4 +1,4 @@
-package org.alram.lh.rental.service
+package org.alram.lh.rental.service.scheduler
 
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

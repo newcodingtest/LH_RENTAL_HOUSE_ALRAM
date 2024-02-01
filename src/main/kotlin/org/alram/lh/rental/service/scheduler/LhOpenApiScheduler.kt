@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component
 private val logger = KotlinLogging.logger {}
 
 @Component
-@RequiredArgsConstructor
 class LhOpenApiScheduler(
     private val lhOpenApiServiceImpl: LhOpenApiCall,
     private val lhBatchRepository: LhBatchRepository
