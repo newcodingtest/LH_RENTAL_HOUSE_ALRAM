@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
+import javax.validation.constraints.Pattern
 
 @Controller
 class RentalController(
@@ -18,9 +19,9 @@ class RentalController(
                 produces = [MediaType.APPLICATION_JSON_VALUE]
     )
     fun searchPublicRentalHouse(@RequestParam cityCode: String,
-                                @RequestParam kindOfHouse: String): ResponseEntity<RentalResponse>{
-        log.info { "request: ${cityCode}, ${kindOfHouse}" }
+                                @RequestParam kindOfHouse: String): ResponseEntity<RentalResponse> {
 
+        log.info { "request: ${cityCode}, ${kindOfHouse}" }
         return ResponseEntity.ok().body(RentalResponse
                                         .fromModel(lhOpenApiService
                                                     .searchNotice(cityCode, kindOfHouse)));

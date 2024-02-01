@@ -21,7 +21,7 @@ class LhJpaRepositoryImpl(
 
     override fun searchByCode(id: Long): LhNotice {
         val lhNoticeEntity = lhJpaRepository
-                                .findByCode(id)?:throw NoSuchElementException("not exist data")
+                                .findByCode(id)?:throw NoSuchElementException()
 
         return LhNotice(code = lhNoticeEntity.code,
                     content = lhNoticeEntity.content)

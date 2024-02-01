@@ -55,11 +55,13 @@ dependencies {
     //mysql, mariadb
     implementation("com.mysql:mysql-connector-j:8.3.0")
 
+    //kotlin+jpa
     implementation("org.jetbrains.kotlin.plugin.jpa:org.jetbrains.kotlin.plugin.jpa.gradle.plugin:1.9.22")
     implementation("org.jetbrains.kotlin:kotlin-allopen:1.9.22")
-
     implementation("com.github.consoleau:kassava:2.1.0")
 
+    //validation
+    implementation("javax.validation:validation-api:2.0.1.Final")
 }
 
 allOpen {

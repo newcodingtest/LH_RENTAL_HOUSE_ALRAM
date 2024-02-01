@@ -4,12 +4,14 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.TestPropertySource
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 
+@TestPropertySource(properties = ["app.scheduling.enable=false"])
 @SpringBootTest
 class LhOpenApiServiceTest @Autowired constructor(
     val lhOpenApiServiceImpl: LhOpenApiCall,
