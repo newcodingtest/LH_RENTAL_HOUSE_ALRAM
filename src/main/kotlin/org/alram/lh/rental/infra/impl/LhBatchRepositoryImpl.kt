@@ -15,7 +15,6 @@ import java.sql.SQLException
 private val logger = KotlinLogging.logger {}
 
 @Repository
-@RequiredArgsConstructor
 class LhBatchRepositoryImpl(
     private val jdbcTemplate: JdbcTemplate
 ): LhBatchRepository {
@@ -23,7 +22,7 @@ class LhBatchRepositoryImpl(
     @Transactional
     override fun save(notices: List<LhNotice>) {
 
-        val sql = "UPDATE INTO lhnotice set code = ?, content = ? "
+        val sql = "UPDATE lhnotice set content = ? WHERE code = ? "
 
         jdbcTemplate.batchUpdate(sql,
             object : BatchPreparedStatementSetter {
@@ -31,8 +30,8 @@ class LhBatchRepositoryImpl(
                 override fun setValues(ps: PreparedStatement, i: Int) {
                     val notice = notices.get(i)
                     logger.info { "template ${notice}"}
-                    ps.setLong(1, notice.code)
-                    ps.setString(2, notice.content)
+                    ps.setString(1, notice.content)
+                    ps.setLong(2, notice.code)
                 }
 
                 override fun getBatchSize(): Int {

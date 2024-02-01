@@ -7,5 +7,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface LhRedisRepository: CrudRepository<RedisEntity,Long> {
-    fun findByCode(code: Long): RedisEntity
+    fun findByCode(code: Long): RedisEntity?
+
+    fun update(code: Long)
+
 }

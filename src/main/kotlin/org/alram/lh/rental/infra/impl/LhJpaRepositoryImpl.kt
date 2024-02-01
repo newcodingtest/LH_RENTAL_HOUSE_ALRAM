@@ -6,6 +6,7 @@ import org.alram.lh.rental.infra.entity.LhNoticeEntity
 import org.alram.lh.rental.service.port.LhRepository
 import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Repository
+import java.lang.Exception
 
 //Since Spring v4.3: If only one constructor exists, then we don’t need to use @Autowired
 @Repository("lhJpaRepositoryImpl")
@@ -19,9 +20,14 @@ class LhJpaRepositoryImpl(
     }
 
     override fun searchByCode(id: Long): LhNotice {
-        val lhNoticeEntity = lhJpaRepository.findByCode(id)
+        val lhNoticeEntity = lhJpaRepository
+                                .findByCode(id)?:throw NoSuchElementException("not exist data")
 
         return LhNotice(code = lhNoticeEntity.code,
                     content = lhNoticeEntity.content)
+    }
+
+    override fun update(lhNotice: LhNotice) {
+        TODO("Not yet implemented")
     }
 }

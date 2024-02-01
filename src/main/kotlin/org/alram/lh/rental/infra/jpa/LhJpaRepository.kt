@@ -4,5 +4,5 @@ import org.alram.lh.rental.infra.entity.LhNoticeEntity
 import org.alram.lh.rental.infra.entity.RedisEntity
 import org.springframework.data.jpa.repository.JpaRepository
 interface LhJpaRepository : JpaRepository<LhNoticeEntity, Long> {
-    fun findByCode(code: Long): LhNoticeEntity
+    fun findByCode(code: Long): LhNoticeEntity?
 }

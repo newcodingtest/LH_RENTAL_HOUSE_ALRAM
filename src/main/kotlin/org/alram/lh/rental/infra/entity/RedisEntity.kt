@@ -6,11 +6,11 @@ import org.springframework.data.redis.core.index.Indexed
 
 @RedisHash("notice")
 class RedisEntity(
-    @Id
-    var id: Long? = null,
+//    @Id
+//    var id: Long? = null,
 
-    @Indexed
-    var code: Long ,
+    @Id
+    var code: Long,
     var content: String,
 
 )

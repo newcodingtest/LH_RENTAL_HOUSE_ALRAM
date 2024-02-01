@@ -1,6 +1,5 @@
-package org.alram.lh.rental.service
+package org.alram.lh.rental.service.scheduler
 
-import lombok.RequiredArgsConstructor
 import mu.KotlinLogging
 import org.alram.lh.rental.domain.LhNotice
 import org.alram.lh.rental.service.port.LhBatchRepository
