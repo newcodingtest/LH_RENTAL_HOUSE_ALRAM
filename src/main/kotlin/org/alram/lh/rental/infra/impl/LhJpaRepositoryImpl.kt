@@ -1,5 +1,6 @@
 package org.alram.lh.rental.infra.impl
 
+import mu.KotlinLogging
 import org.alram.lh.rental.domain.LhNotice
 import org.alram.lh.rental.infra.jpa.LhJpaRepository
 import org.alram.lh.rental.infra.entity.LhNoticeEntity
@@ -13,6 +14,7 @@ import java.lang.Exception
 class LhJpaRepositoryImpl(
     @Lazy val lhJpaRepository: LhJpaRepository
 ): LhRepository {
+    val log = KotlinLogging.logger {}
 
     override fun create(lhNotice: LhNotice) {
         lhJpaRepository.save(LhNoticeEntity(code = lhNotice.code,
@@ -20,6 +22,7 @@ class LhJpaRepositoryImpl(
     }
 
     override fun searchByCode(id: Long): LhNotice {
+        log.info { "use db" }
         val lhNoticeEntity = lhJpaRepository
                                 .findByCode(id)?:throw NoSuchElementException()
 

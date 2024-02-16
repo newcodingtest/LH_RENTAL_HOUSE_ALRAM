@@ -2,13 +2,13 @@ server:
   port: 8081
 
 lh:
+  baseUrl: http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1
+
   servicekey:
     decode: OPrzGNbeGKWMffAEpVmOkqzrC9FjbuvyHR/3DWvQFtl+rPp0mmSv8nR6y8j6pnEr3S6KQltHw/uSCU+evaeyKA==
     encode: OPrzGNbeGKWMffAEpVmOkqzrC9FjbuvyHR%2F3DWvQFtl%2BrPp0mmSv8nR6y8j6pnEr3S6KQltHw%2FuSCU%2BevaeyKA%3D%3D
 
-openApi:
-  call:
-    cron: 0 0/20 * * * *
+  cron: 0 0/1 * * * *
 
 spring:
   datasource:

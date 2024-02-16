@@ -62,6 +62,9 @@ dependencies {
 
     //validation
     implementation("javax.validation:validation-api:2.0.1.Final")
+
+    //gson
+    implementation ("com.google.code.gson:gson:2.10.1")
 }
 
 allOpen {

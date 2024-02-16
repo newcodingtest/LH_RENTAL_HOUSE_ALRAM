@@ -1,6 +1,16 @@
 package org.alram.lh.rental.service.scheduler
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import com.google.gson.Gson
 import mu.KotlinLogging
+import org.alram.lh.rental.domain.ApiResponse
+import org.alram.lh.rental.utils.LhApiParameters
+import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -13,14 +23,15 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executors
-import java.util.stream.Collectors
 
 
 @TestPropertySource(properties = ["app.scheduling.enable=false"])
 @SpringBootTest
 class LhOpenApiCallTest @Autowired constructor(
     val lhOpenApiServiceImpl: LhOpenApiCall,
-    val restTemplate: RestTemplate
+    val restTemplate: RestTemplate,
+    val objectMapper: ObjectMapper,
+    val gson: Gson
 
 ) {
     val log = KotlinLogging.logger {}
@@ -45,8 +56,8 @@ class LhOpenApiCallTest @Autowired constructor(
     fun 광주지역의_공고중인_공고문을_검색한다() {
         val baseUrl = "http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1"
         val serviceKey = encodeKey
-        val cityCode = "29"
-        val kindOfHouse = "06"
+        val cityCode = LhApiParameters.광주.code
+        val kindOfHouse = LhApiParameters.임대주택.code
 
        println(lhOpenApiServiceImpl.searchHouse(baseUrl, serviceKey, cityCode, kindOfHouse))
     }
@@ -62,8 +73,8 @@ class LhOpenApiCallTest @Autowired constructor(
             .fromHttpUrl("http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1")
             .queryParam("serviceKey", encodeKey)
             .queryParam("PAN_SS", panSS)
-            .queryParam("CNP_CD","29")
-            .queryParam("UPP_AIS_TP_CD","06")
+            .queryParam("CNP_CD",LhApiParameters.광주.code)
+            .queryParam("UPP_AIS_TP_CD",LhApiParameters.임대주택.code)
             .build(true)
 
         println("url 경로: "+uri)
@@ -74,51 +85,50 @@ class LhOpenApiCallTest @Autowired constructor(
     }
 
     @Test
-    fun `병렬적으로 restTemplate을 요청할 수 있다1`() {
+    fun `restTemplate으로 비동기 처리를 할 수 있다`() {
         //given
         val executorService = Executors.newFixedThreadPool(5)
         val baseUrl = "http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1"
-        val serviceKey = encodeKey
-        val cityCode1 = "29"
-        val cityCode2 = "11"
-        val cityCode3 = "42"
-        val cityCode4 = "43"
-        val cityCode5 = "44"
-        val kindOfHouse = "06"
+        val cityCode1 = LhApiParameters.광주.code
+        val cityCode2 = LhApiParameters.서울.code
+        val cityCode3 = LhApiParameters.대전.code
+        val cityCode4 = LhApiParameters.대구.code
+        val cityCode5 = LhApiParameters.부산.code
+        val kindOfHouse = LhApiParameters.임대주택.code
 
         var panSS = URLEncoder
             .encode("공고중", StandardCharsets.UTF_8.toString())
 
         var uri1 = UriComponentsBuilder
-            .fromHttpUrl("http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1")
+            .fromHttpUrl(baseUrl)
             .queryParam("serviceKey", encodeKey)
             .queryParam("PAN_SS", panSS)
             .queryParam("CNP_CD", cityCode1)
             .queryParam("UPP_AIS_TP_CD", kindOfHouse)
             .build(true)
         var uri2 = UriComponentsBuilder
-            .fromHttpUrl("http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1")
+            .fromHttpUrl(baseUrl)
             .queryParam("serviceKey", encodeKey)
             .queryParam("PAN_SS", panSS)
             .queryParam("CNP_CD", cityCode2)
             .queryParam("UPP_AIS_TP_CD", kindOfHouse)
             .build(true)
         var uri3 = UriComponentsBuilder
-            .fromHttpUrl("http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1")
+            .fromHttpUrl(baseUrl)
             .queryParam("serviceKey", encodeKey)
             .queryParam("PAN_SS", panSS)
             .queryParam("CNP_CD", cityCode3)
             .queryParam("UPP_AIS_TP_CD", kindOfHouse)
             .build(true)
         var uri4 = UriComponentsBuilder
-            .fromHttpUrl("http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1")
+            .fromHttpUrl(baseUrl)
             .queryParam("serviceKey", encodeKey)
             .queryParam("PAN_SS", panSS)
             .queryParam("CNP_CD", cityCode4)
             .queryParam("UPP_AIS_TP_CD", kindOfHouse)
             .build(true)
         var uri5 = UriComponentsBuilder
-            .fromHttpUrl("http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1")
+            .fromHttpUrl(baseUrl)
             .queryParam("serviceKey", encodeKey)
             .queryParam("PAN_SS", panSS)
             .queryParam("CNP_CD", cityCode5)
@@ -138,23 +148,40 @@ class LhOpenApiCallTest @Autowired constructor(
 
         //작업종료
          CompletableFuture.allOf(*futures.toTypedArray()).join()
-
-
-
-//        var futures1 = list.stream()
-//            .map { CompletableFuture.supplyAsync({
-//                var tmp = restTemplate.getForEntity(it.toUri(),String::class.java)
-//                log.info { it.toUri() }
-//                testPrint(tmp.body)
-//                //tmp.body
-//            }, executorService) }.toList()
-//
-//        CompletableFuture.allOf(*futures1.toTypedArray()).join()
         }
 
     fun testPrint(tmp: String?){
         log.info { "test ${tmp}" }
     }
+
+    @Test
+    fun `response를 json 타입으로 받을 수 있다`(){
+        val baseUrl = "http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1"
+        val serviceKey = encodeKey
+        val cityCode = LhApiParameters.광주.code
+        val kindOfHouse = LhApiParameters.임대주택.code
+
+        var target = lhOpenApiServiceImpl.searchHouse(baseUrl,
+                                        serviceKey,
+                                        cityCode,
+                                        kindOfHouse).body?:""
+        println("origin ${target}")
+         val jsonarr1 = JSONArray(target);
+        val expected = jsonarr1.getJSONObject(1).get("dsList").toString()
+        if (expected.length<3){
+            println("데이터가 없습니다.")
+            return
+        }
+        println(expected)
+        val n : JSONObject= jsonarr1.getJSONObject(1)
+        val n1 = n.get("dsList").toString().replace("[","").replace("]","")
+        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);  // list deserialization 기능 활성화
+        val apiResponse: ApiResponse = objectMapper.readValue(n1,
+            ApiResponse::class.java)
+
+        println("hi ${ gson.toJson(apiResponse)}")
+
+        }
 
     }
 

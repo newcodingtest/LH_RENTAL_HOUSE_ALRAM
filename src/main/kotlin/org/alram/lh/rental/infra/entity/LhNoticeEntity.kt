@@ -8,15 +8,13 @@ import org.alram.lh.rental.domain.LhNotice
 class LhNoticeEntity(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
-
     @Column(name = "code")
     var code: Long,
 
-    @Column(name = "content")
+    @Lob
+    @Column(name = "content", length = 100000)
     var content: String
-)
+): BaseEntity()
 
 
 

@@ -5,6 +5,7 @@ import org.alram.lh.rental.controller.port.LhOpenApiService
 import org.alram.lh.rental.domain.LhNotice
 import org.alram.lh.rental.service.port.LhRepository
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 
@@ -22,25 +23,35 @@ class LhOpenApiServiceImpl(
 
      val log = KotlinLogging.logger {}
 
+     @Cacheable(cacheNames = ["noticeCache"],
+                    key = "'notice:'+#cityCode +#kindOfHouse",
+               cacheManager = "cacheManager")
      override fun searchNotice(cityCode: String, kindOfHouse: String): LhNotice {
           val code = (cityCode+kindOfHouse).toLong()
-          var result : LhNotice
-          /**
-           * TO-BE:
-           *  1. Redis 조회
-           *  2. 데이터 없으면 DB조회
-           *  3. DB데이터 Redis에 갱신 (동기화)
-           *
-           * */
-          try {
-               result = redisRepository.searchByCode(code)
-          }catch (e: Exception){
-               result = jpaRepository.searchByCode(code)
-               redisRepository.create(LhNotice(code = result.code,
-                    content = result.content))
-          }
+//          var result : LhNotice
+//          /**
+//           *  1. Redis 조회
+//           *  2. 데이터 없으면 DB조회
+//           *   2-1. DB조회 데이터 Redis에 갱신 (동기화)
+//           *
+//           * */
+//          try {
+//               log.info { "use cache" }
+//               result = redisRepository.searchByCode(code)
+//          }catch (e: Exception){
+//               log.info { "use db" }
+//               result = jpaRepository.searchByCode(code)
+//               redisRepository.create(LhNotice(code = result.code,
+//                    content = result.content))
+//          }
+//
+//          log.info {"${result}"}
+//          return result
+          var result = jpaRepository.searchByCode(code)
 
-          log.info {"${result}"}
+          redisRepository.create(LhNotice(code = result.code,
+               content = result.content))
           return result
+
      }
 }
