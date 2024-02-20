@@ -12,6 +12,7 @@ import org.alram.lh.rental.utils.LhApiParameters
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.configurationprocessor.json.JSONArray
+import org.springframework.boot.configurationprocessor.json.JSONException
 import org.springframework.boot.configurationprocessor.json.JSONObject
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -91,10 +92,17 @@ class LhOpenApiScheduler(
     }
 
     fun toApiResponseModel(apiResult: String): String{
+        var apiContentJsonArr: JSONArray
         return if(apiResult != ""){
-            val apiContentJsonArr = JSONArray(apiResult)
+            try {
+                apiContentJsonArr = JSONArray(apiResult)
+            }catch (e: JSONException){
+                return ""
+            }
+
             var apiContentBody = ""
             try {
+                apiContentJsonArr = JSONArray(apiResult)
                 apiContentBody = apiContentJsonArr.getJSONObject(1).get("dsList").toString()
             }catch (e: Exception){
                 return ""

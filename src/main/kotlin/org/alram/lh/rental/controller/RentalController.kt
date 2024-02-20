@@ -3,6 +3,7 @@ package org.alram.lh.rental.controller
 import mu.KotlinLogging
 import org.alram.lh.rental.controller.port.LhOpenApiService
 import org.alram.lh.rental.controller.response.RentalResponse
+import org.alram.lh.rental.utils.LhApiParameters
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -25,5 +26,17 @@ class RentalController(
         return ResponseEntity.ok().body(RentalResponse
                                         .fromModel(lhOpenApiService
                                                     .searchNotice(cityCode, kindOfHouse)));
+    }
+
+    @GetMapping( value = ["/public/house/v1"],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    fun searchPublicRentalHouse_v1(@RequestParam cityName: String,
+                                @RequestParam kindOfHouseName: String): ResponseEntity<RentalResponse> {
+
+        log.info { "request: ${cityName}, ${kindOfHouseName}" }
+        return ResponseEntity.ok().body(RentalResponse
+            .fromModel(lhOpenApiService
+                .searchNotice(LhApiParameters.of(cityName), LhApiParameters.of(kindOfHouseName))));
     }
 }

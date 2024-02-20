@@ -38,7 +38,10 @@ class RedisConfiguration: CachingConfigurerSupport() {
     fun restTemplate(): RestTemplate = RestTemplate()
 
     @Value("\${spring.data.redis.host}")
+
     lateinit var host: String
+    @Value("\${spring.data.redis.password}")
+    lateinit var password: String
 
     @Value("\${spring.data.redis.port}")
     var port: Int = 6379
@@ -51,6 +54,7 @@ class RedisConfiguration: CachingConfigurerSupport() {
             .build()
 
         val redisStandaloneConfiguration = RedisStandaloneConfiguration(host, port)
+        redisStandaloneConfiguration.setPassword(password)
         return LettuceConnectionFactory(redisStandaloneConfiguration, lettuceClientConfiguration)
     }
 

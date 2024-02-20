@@ -8,7 +8,7 @@ lh:
     decode: OPrzGNbeGKWMffAEpVmOkqzrC9FjbuvyHR/3DWvQFtl+rPp0mmSv8nR6y8j6pnEr3S6KQltHw/uSCU+evaeyKA==
     encode: OPrzGNbeGKWMffAEpVmOkqzrC9FjbuvyHR%2F3DWvQFtl%2BrPp0mmSv8nR6y8j6pnEr3S6KQltHw%2FuSCU%2BevaeyKA%3D%3D
 
-  cron: 0 0/1 * * * *
+  cron: 0 0 0/3 * * *
 
 spring:
   datasource:
@@ -29,6 +29,7 @@ spring:
     redis:
       host: 192.168.0.190
       port: 6379
+      password: redis
 
   main:
     allow-circular-references: true
