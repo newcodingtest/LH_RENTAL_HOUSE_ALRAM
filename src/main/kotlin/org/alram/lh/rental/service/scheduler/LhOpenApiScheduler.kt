@@ -12,14 +12,9 @@ import org.alram.lh.rental.utils.LhApiParameters
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.configurationprocessor.json.JSONArray
-import org.springframework.boot.configurationprocessor.json.JSONException
 import org.springframework.boot.configurationprocessor.json.JSONObject
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import org.springframework.web.util.UriComponents
-import org.springframework.web.util.UriComponentsBuilder
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executors
 
@@ -77,7 +72,7 @@ class LhOpenApiScheduler(
                     encodeKey,
                     it,
                     LhApiParameters.임대주택.code).body?:""
-
+                logger.info { apiResult }
                 var json = toApiResponseModel(apiResult)
 
                 LhNotice(code = (it+LhApiParameters.임대주택.code).toLong(),
@@ -92,32 +87,35 @@ class LhOpenApiScheduler(
     }
 
     fun toApiResponseModel(apiResult: String): String{
+        var resultList = ArrayList<String>()
         var apiContentJsonArr: JSONArray
         return if(apiResult != ""){
-            try {
-                apiContentJsonArr = JSONArray(apiResult)
-            }catch (e: JSONException){
-                return ""
-            }
-
             var apiContentBody = ""
             try {
                 apiContentJsonArr = JSONArray(apiResult)
                 apiContentBody = apiContentJsonArr.getJSONObject(1).get("dsList").toString()
             }catch (e: Exception){
+                logger.error { e.message }
                 return ""
             }
 
-            if (apiContentBody.length<3){
+            if (apiContentBody.length>=3){
+                val jsonObj : JSONObject= apiContentJsonArr.getJSONObject(1)
+                val strList = jsonObj.get("dsList").toString()
+                val jsonNode = objectMapper.readTree(strList)
+
+                //then
+                jsonNode.forEach {
+                    val apiResponse: ApiResponse = objectMapper.readValue(it.toString(),
+                        ApiResponse::class.java)
+                    objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);  // list deserialization 기능 활성화
+                    resultList.add(gson.toJson(apiResponse))
+                }
+                resultList.toString()
+            } else {
                 ""
-            }else {
-                val toJsonObject : JSONObject = apiContentJsonArr.getJSONObject(1)
-                val jsonApiContentBody = toJsonObject.get("dsList").toString().replace("[","").replace("]","")
-                objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);  // list deserialization 기능 활성화
-                val apiResponse: ApiResponse = objectMapper.readValue(jsonApiContentBody,
-                    ApiResponse::class.java)
-                gson.toJson(apiResponse)
             }
+
         } else {
             ""
         }

@@ -2,6 +2,7 @@ package org.alram.lh.rental.service.scheduler
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -25,7 +26,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executors
 
 
-@TestPropertySource(properties = ["app.scheduling.enable=false"])
+@TestPropertySource(properties = ["app.scheduling.enable=false"]) //테스트 환경에서는 스케쥴러를 OFF 해둔다.
 @SpringBootTest
 class LhOpenApiCallTest @Autowired constructor(
     val lhOpenApiServiceImpl: LhOpenApiCall,
@@ -156,32 +157,41 @@ class LhOpenApiCallTest @Autowired constructor(
 
     @Test
     fun `response를 json 타입으로 받을 수 있다`(){
+        //given
         val baseUrl = "http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1"
         val serviceKey = encodeKey
         val cityCode = LhApiParameters.광주.code
         val kindOfHouse = LhApiParameters.임대주택.code
 
+        //when
         var target = lhOpenApiServiceImpl.searchHouse(baseUrl,
                                         serviceKey,
                                         cityCode,
                                         kindOfHouse).body?:""
-        println("origin ${target}")
-         val jsonarr1 = JSONArray(target);
-        val expected = jsonarr1.getJSONObject(1).get("dsList").toString()
+
+        val jsonArray = JSONArray(target)
+        val expected = jsonArray.getJSONObject(1).get("dsList").toString()
         if (expected.length<3){
             println("데이터가 없습니다.")
             return
         }
-        println(expected)
-        val n : JSONObject= jsonarr1.getJSONObject(1)
-        val n1 = n.get("dsList").toString().replace("[","").replace("]","")
-        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);  // list deserialization 기능 활성화
-        val apiResponse: ApiResponse = objectMapper.readValue(n1,
-            ApiResponse::class.java)
 
-        println("hi ${ gson.toJson(apiResponse)}")
+        val jsonObj : JSONObject= jsonArray.getJSONObject(1)
+        val strList = jsonObj.get("dsList").toString()
+        val jsonNode = objectMapper.readTree(strList)
 
+        //then
+        var resultList = ArrayList<String>()
+        jsonNode.forEach {
+            val apiResponse: ApiResponse = objectMapper.readValue(it.toString(),
+                ApiResponse::class.java)
+            objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);  // list deserialization 기능 활성화
+            resultList.add(gson.toJson(apiResponse))
         }
+
+        println("${resultList}")
+
+    }
 
     }
 
