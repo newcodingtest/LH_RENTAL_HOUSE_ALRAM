@@ -1,7 +1,5 @@
 package org.alram.lh.rental.utils
 
-import java.lang.IllegalArgumentException
-
 enum class LhApiParameters(val code: String, val description: String) {
         광주("29","광주"),
         서울("11","서울"),

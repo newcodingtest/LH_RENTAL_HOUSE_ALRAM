@@ -1,0 +1,37 @@
+server:
+  port: 8081
+
+lh:
+  baseUrl: http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1
+
+  servicekey:
+    decode: OPrzGNbeGKWMffAEpVmOkqzrC9FjbuvyHR/3DWvQFtl+rPp0mmSv8nR6y8j6pnEr3S6KQltHw/uSCU+evaeyKA==
+    encode: OPrzGNbeGKWMffAEpVmOkqzrC9FjbuvyHR%2F3DWvQFtl%2BrPp0mmSv8nR6y8j6pnEr3S6KQltHw%2FuSCU%2BevaeyKA%3D%3D
+
+  cron: 0 0 0/3 * * *
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.0.190:3306/atm?rewriteBatchedStatements=true&logger=Slf4JLogger&maxQuerySizeToLog=999999 #&profileSQL=true
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+#        format_sql: true
+#    show-sql: true
+
+  data:
+    redis:
+      host: 192.168.0.190
+      port: 6379
+      password: redis
+
+  main:
+    allow-circular-references: true
+    ## jpa, redis repository 서로 충돌
+    allow-bean-definition-overriding: true

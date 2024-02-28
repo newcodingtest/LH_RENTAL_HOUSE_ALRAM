@@ -5,10 +5,7 @@ import org.alram.lh.rental.infra.redis.LhRedisRepository
 import org.alram.lh.rental.infra.entity.RedisEntity
 import org.alram.lh.rental.service.port.LhRepository
 import org.springframework.context.annotation.Lazy
-import org.springframework.data.redis.core.RedisKeyValueTemplate
-import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
-import java.lang.Exception
 
 @Repository("lhRedisRepositoryImpl")
 class LhRedisRepositoryImpl(

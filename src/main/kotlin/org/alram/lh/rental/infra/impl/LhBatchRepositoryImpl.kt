@@ -1,9 +1,7 @@
 package org.alram.lh.rental.infra.impl
 
-import lombok.RequiredArgsConstructor
 import mu.KotlinLogging
 import org.alram.lh.rental.domain.LhNotice
-import org.alram.lh.rental.infra.entity.RedisEntity
 import org.alram.lh.rental.service.port.LhBatchRepository
 import org.springframework.jdbc.core.BatchPreparedStatementSetter
 import org.springframework.jdbc.core.JdbcTemplate

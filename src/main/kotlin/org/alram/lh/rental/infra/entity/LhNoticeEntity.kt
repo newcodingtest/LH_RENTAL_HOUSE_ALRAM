@@ -1,7 +1,6 @@
 package org.alram.lh.rental.infra.entity
 
 import jakarta.persistence.*
-import org.alram.lh.rental.domain.LhNotice
 
 @Entity
 @Table(name = "lhnotice")
