@@ -33,7 +33,8 @@ class LhOpenApiServiceImpl(
 
           redisRepository.create(LhNotice(code = result.code,
                content = result.content,
-               cnt = result.cnt))
+               cnt = result.cnt,
+               city = result.city))
           return result
 
      }

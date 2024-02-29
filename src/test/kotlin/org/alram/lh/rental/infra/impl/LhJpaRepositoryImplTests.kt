@@ -19,7 +19,9 @@ class LhJpaRepositoryImplTests @Autowired constructor(
     fun 데이터를_생성할_수_있다(){
         //given
         val given = LhNotice(code = 1111,
-                            content = "test")
+                            content = "test",
+                            cnt = 1,
+                            city = "광주")
 
         //when
         lhJpaRepositoryImpl.create(given)

@@ -58,12 +58,6 @@ class LhOpenApiScheduler(
     @Scheduled(cron = "\${lh.cron}")
     private fun createParallelAsync(){
         val executorService = Executors.newFixedThreadPool(5)
-        val 광주코드= LhApiParameters.광주.code
-        val 서울코드 = LhApiParameters.서울.code
-        val 대전코드 = LhApiParameters.대전.code
-        val 대구코드 = LhApiParameters.대구.code
-        val 부산코드 = LhApiParameters.부산.code
-
         var list : List<String> = LhApiParameters.getCityList()
 
         var futures = list.stream()
@@ -77,7 +71,8 @@ class LhOpenApiScheduler(
 
                 LhNotice(code = (it+LhApiParameters.임대주택.code).toLong(),
                     content = jsonList.toString(),
-                    cnt = jsonList.size)
+                    cnt = jsonList.size,
+                    city = LhApiParameters.getNameFromCode(it))
             }, executorService).thenAcceptAsync({
                 //db저장
                 lhRepository.create(it)

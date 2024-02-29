@@ -17,5 +17,7 @@ data class LhNotice @JsonCreator constructor (
      @JsonProperty("content")
      val content: String,
      @JsonProperty("cnt")
-     val cnt: Int
+     val cnt: Int,
+     @JsonProperty("city")
+     val city: String
 )

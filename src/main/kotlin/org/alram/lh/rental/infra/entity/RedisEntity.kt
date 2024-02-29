@@ -12,5 +12,6 @@ class RedisEntity(
     var code: Long,
     var content: String,
     var cnt: Int,
+    var city: String="",
 
 )

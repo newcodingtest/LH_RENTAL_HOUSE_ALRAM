@@ -29,8 +29,9 @@ enum class LhApiParameters(val code: String, val description: String) {
 
 
 
-
         companion object {
+                private val codeMap: Map<String,String> = values().associate { it.code to it.name }
+                private val nameMap: Map<String,String> = values().associate { it.name to it.code }
                 private val cityCodeList : List<String>  = listOf(  광주.code,
                                                                 서울.code,
                                                                 부산.code,
@@ -50,16 +51,18 @@ enum class LhApiParameters(val code: String, val description: String) {
                                                                 제주도.code
                 )
 
-                fun getCityList(): List<String> =
-                    cityCodeList
+                fun getCityList(): List<String> = cityCodeList
 
-            fun of(description: String): String{
-                for (elem in LhApiParameters.values()){
-                    if(elem.name == description){
-                        return elem.code
-                    }
-                }
+            fun getCodeFromName(description: String): String{
+                return nameMap.get(description)?:
                 throw NoSuchElementException("일치하는 검색 유형코드가 없습니다.")
             }
+
+            fun getNameFromCode(code: String): String{
+                return codeMap.get(code)?:
+                throw NoSuchElementException("일치하는 검색 도시가 없습니다.")
+            }
         }
+
+
 }

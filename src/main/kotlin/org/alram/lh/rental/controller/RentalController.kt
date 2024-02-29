@@ -39,6 +39,6 @@ class RentalController(
         log.info { "request: ${cityName}, ${kindOfHouseName}" }
         return ResponseEntity.ok().body(RentalResponse
             .fromModel(lhOpenApiService
-                .searchNotice(LhApiParameters.of(cityName), LhApiParameters.of(kindOfHouseName))));
+                .searchNotice(LhApiParameters.getCodeFromName(cityName), LhApiParameters.getCodeFromName(kindOfHouseName))));
     }
 }

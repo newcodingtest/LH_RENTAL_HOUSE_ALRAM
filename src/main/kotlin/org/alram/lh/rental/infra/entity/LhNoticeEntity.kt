@@ -17,7 +17,10 @@ class LhNoticeEntity(
 
     @Column(name = "cnt", nullable = false)
     @ColumnDefault("0")
-    var cnt: Int
+    var cnt: Int,
+
+    @Column(name = "city", nullable = false)
+    var city: String
 
 ): BaseEntity()
 

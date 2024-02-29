@@ -17,7 +17,10 @@ class LhRedisRepositoryImpl(
         //redisTemplate.
         lhRedisRepository.save(RedisEntity(code = lhNotice.code,
                                         content = lhNotice.content,
-                                        cnt = lhNotice.cnt))
+                                        cnt = lhNotice.cnt,
+                                        city = lhNotice.city
+                                        )
+                                )
     }
 
     override fun searchByCode(code: Long): LhNotice{
@@ -27,7 +30,9 @@ class LhRedisRepositoryImpl(
 
         return LhNotice(code = entity.code,
                         content = entity.content,
-                        cnt = entity.cnt)
+                        cnt = entity.cnt,
+                        city = entity.city
+                        )
     }
 
     override fun update(lhNotice: LhNotice) {

@@ -22,7 +22,10 @@ class LhRedisRepositoryImplTests @Autowired constructor(
     fun create_로_redis에_값을_생성할_수_있다(){
         //given
         val given = LhNotice(code = 1L,
-                            content = "update1")
+                            content = "update1",
+                            cnt = 1,
+                            city = "서을"
+                            )
 
         //when
         lhRedisRepositoryImpl.create(given)
@@ -37,7 +40,10 @@ class LhRedisRepositoryImplTests @Autowired constructor(
     fun code로_데이터를_조회할_수_있다(){
         //given
         val given = LhNotice(code = 1L,
-            content = "test")
+                            content = "test",
+                            cnt = 1,
+                            city = "서을"
+                        )
         lhRedisRepositoryImpl.create(given)
 
         //when
@@ -61,9 +67,15 @@ class LhRedisRepositoryImplTests @Autowired constructor(
     fun 같은code의_새로운_content를_생성할때_기존_데이터가_존재하면_Update된다(){
         //given
         val origin = LhNotice(code = 1L,
-            content = "origin")
+                            content = "origin",
+                            cnt = 1,
+                            city = "서을"
+                            )
         val update = LhNotice(code = 1L,
-            content = "update")
+                            content = "update",
+                            cnt = 1,
+                            city = "서을"
+                            )
 
         //when1
         lhRedisRepositoryImpl.create(origin)

@@ -19,7 +19,10 @@ class LhJpaRepositoryImpl(
     override fun create(lhNotice: LhNotice) {
         lhJpaRepository.save(LhNoticeEntity(code = lhNotice.code,
                                         content = lhNotice.content,
-                                        cnt = lhNotice.cnt))
+                                        cnt = lhNotice.cnt,
+                                        city = lhNotice.city
+                                        )
+                            )
     }
 
     override fun searchByCode(id: Long): LhNotice {
@@ -29,7 +32,8 @@ class LhJpaRepositoryImpl(
 
         return LhNotice(code = lhNoticeEntity.code,
                     content = lhNoticeEntity.content,
-                    cnt = lhNoticeEntity.cnt
+                    cnt = lhNoticeEntity.cnt,
+                    city = lhNoticeEntity.city
                         )
     }
 
