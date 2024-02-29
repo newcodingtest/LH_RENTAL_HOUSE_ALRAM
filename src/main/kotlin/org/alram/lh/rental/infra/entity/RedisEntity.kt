@@ -11,5 +11,6 @@ class RedisEntity(
     @Id
     var code: Long,
     var content: String,
+    var cnt: Int,
 
 )

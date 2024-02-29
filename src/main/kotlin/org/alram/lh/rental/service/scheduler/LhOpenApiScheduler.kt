@@ -37,23 +37,23 @@ class LhOpenApiScheduler(
 
     //db batch insert
 
-    private fun createBatch(){
-        notices.clear()
-
-        val value  = lhOpenApiServiceImpl.searchHouse(baseUrl,
-            encodeKey,
-            LhApiParameters.광주.code,
-            LhApiParameters.임대주택.code).body?:""
-
-        logger.info { "request ${value}"}
-        val notice = LhNotice(code = (LhApiParameters.광주.code+LhApiParameters.임대주택.code).toLong(),
-            content = value)
-
-        logger.info { "notice ${notice}" }
-        notices.add(notice)
-
-        lhBatchRepository.save(notices)
-    }
+//    private fun createBatch(){
+//        notices.clear()
+//
+//        val value  = lhOpenApiServiceImpl.searchHouse(baseUrl,
+//            encodeKey,
+//            LhApiParameters.광주.code,
+//            LhApiParameters.임대주택.code).body?:""
+//
+//        logger.info { "request ${value}"}
+//        val notice = LhNotice(code = (LhApiParameters.광주.code+LhApiParameters.임대주택.code).toLong(),
+//            content = value)
+//
+//        logger.info { "notice ${notice}" }
+//        notices.add(notice)
+//
+//        lhBatchRepository.save(notices)
+//    }
 
     @Scheduled(cron = "\${lh.cron}")
     private fun createParallelAsync(){
@@ -73,10 +73,11 @@ class LhOpenApiScheduler(
                     it,
                     LhApiParameters.임대주택.code).body?:""
                 logger.info { apiResult }
-                var json = toApiResponseModel(apiResult)
+                var jsonList = toApiResponseModel(apiResult)
 
                 LhNotice(code = (it+LhApiParameters.임대주택.code).toLong(),
-                    content = json)
+                    content = jsonList.toString(),
+                    cnt = jsonList.size)
             }, executorService).thenAcceptAsync({
                 //db저장
                 lhRepository.create(it)
@@ -86,7 +87,7 @@ class LhOpenApiScheduler(
         CompletableFuture.allOf(*futures.toTypedArray()).join()
     }
 
-    fun toApiResponseModel(apiResult: String): String{
+    fun toApiResponseModel(apiResult: String): ArrayList<String>{
         var resultList = ArrayList<String>()
         var apiContentJsonArr: JSONArray
         return if(apiResult != ""){
@@ -96,7 +97,7 @@ class LhOpenApiScheduler(
                 apiContentBody = apiContentJsonArr.getJSONObject(1).get("dsList").toString()
             }catch (e: Exception){
                 logger.error { e.message }
-                return ""
+                return resultList
             }
 
             if (apiContentBody.length>=3){
@@ -111,13 +112,13 @@ class LhOpenApiScheduler(
                     objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);  // list deserialization 기능 활성화
                     resultList.add(gson.toJson(apiResponse))
                 }
-                resultList.toString()
+                resultList
             } else {
-                ""
+                resultList
             }
 
         } else {
-            ""
+            resultList
         }
     }
 

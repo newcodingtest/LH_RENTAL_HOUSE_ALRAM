@@ -16,7 +16,8 @@ class LhRedisRepositoryImpl(
     override fun create(lhNotice: LhNotice) {
         //redisTemplate.
         lhRedisRepository.save(RedisEntity(code = lhNotice.code,
-                                        content = lhNotice.content))
+                                        content = lhNotice.content,
+                                        cnt = lhNotice.cnt))
     }
 
     override fun searchByCode(code: Long): LhNotice{
@@ -25,7 +26,8 @@ class LhRedisRepositoryImpl(
                                     .get()?:throw NoSuchElementException("not exist data")
 
         return LhNotice(code = entity.code,
-                        content = entity.content)
+                        content = entity.content,
+                        cnt = entity.cnt)
     }
 
     override fun update(lhNotice: LhNotice) {

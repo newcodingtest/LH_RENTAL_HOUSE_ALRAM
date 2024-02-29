@@ -7,10 +7,12 @@ import org.alram.lh.rental.utils.LhApiParameters
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import javax.validation.constraints.Pattern
 
+@CrossOrigin(origins = ["*"])
 @Controller
 class RentalController(
     private val lhOpenApiService: LhOpenApiService

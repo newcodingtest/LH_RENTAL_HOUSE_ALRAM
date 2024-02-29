@@ -18,7 +18,8 @@ class LhJpaRepositoryImpl(
 
     override fun create(lhNotice: LhNotice) {
         lhJpaRepository.save(LhNoticeEntity(code = lhNotice.code,
-                                        content = lhNotice.content))
+                                        content = lhNotice.content,
+                                        cnt = lhNotice.cnt))
     }
 
     override fun searchByCode(id: Long): LhNotice {
@@ -27,7 +28,9 @@ class LhJpaRepositoryImpl(
                                 .findByCode(id)?:throw NoSuchElementException()
 
         return LhNotice(code = lhNoticeEntity.code,
-                    content = lhNoticeEntity.content)
+                    content = lhNoticeEntity.content,
+                    cnt = lhNoticeEntity.cnt
+                        )
     }
 
     override fun update(lhNotice: LhNotice) {

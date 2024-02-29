@@ -28,29 +28,12 @@ class LhOpenApiServiceImpl(
                cacheManager = "cacheManager")
      override fun searchNotice(cityCode: String, kindOfHouse: String): LhNotice {
           val code = (cityCode+kindOfHouse).toLong()
-//          var result : LhNotice
-//          /**
-//           *  1. Redis 조회
-//           *  2. 데이터 없으면 DB조회
-//           *   2-1. DB조회 데이터 Redis에 갱신 (동기화)
-//           *
-//           * */
-//          try {
-//               log.info { "use cache" }
-//               result = redisRepository.searchByCode(code)
-//          }catch (e: Exception){
-//               log.info { "use db" }
-//               result = jpaRepository.searchByCode(code)
-//               redisRepository.create(LhNotice(code = result.code,
-//                    content = result.content))
-//          }
-//
-//          log.info {"${result}"}
-//          return result
+
           var result = jpaRepository.searchByCode(code)
 
           redisRepository.create(LhNotice(code = result.code,
-               content = result.content))
+               content = result.content,
+               cnt = result.cnt))
           return result
 
      }
