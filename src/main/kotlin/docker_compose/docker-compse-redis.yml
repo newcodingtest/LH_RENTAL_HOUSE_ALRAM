@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   redis:
-    container_name: redis
+    container_name: redis-dev
     hostname: redis6379
     network_mode: "host"
     image: redis:latest
@@ -13,3 +13,39 @@ services:
       - "mode=standalone"
     ports:
       - 6379:6379
+    depends_on:
+      - lh_alram_demo_app
+
+  mysql:
+    container_name: mysql-dev
+    image: mysql:8.0.34
+    volumes:
+      - /data/mysql:/var/lib/mysql:rw
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      TZ: Etc/GMT
+    ports:
+      - 3306:3306
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb3
+      - --lower_case_table_names=1
+      - --sql-mode=
+    depends_on:
+      - redis
+
+  lh_alram_demo_app:
+    container_name: lh_alram_app
+    image: openjdk:17-alpine
+    restart: unless-stopped
+    network_mode: "host"
+    working_dir: /app
+    volumes:
+      - '/demo.jar:/app/lh_alram_app.jar'
+      - '/application-dev.yml:/app/application-dev.yml'
+      - '/logs:/app/logs'
+    command: java -jar -Dserver.port=9294 -Dspring.profiles.active=dev lh_alram_app.jar
+    deploy:
+      resources:
+        limits:
+          memory: 256M
