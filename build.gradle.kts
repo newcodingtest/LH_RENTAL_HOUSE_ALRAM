@@ -11,9 +11,14 @@ plugins {
 
 }
 
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
+group = "ord.alram.lh"
+version = "0.0.1"
 
+val jar: Jar by tasks
+val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
+
+bootJar.enabled = true
+jar.enabled = false
 java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
