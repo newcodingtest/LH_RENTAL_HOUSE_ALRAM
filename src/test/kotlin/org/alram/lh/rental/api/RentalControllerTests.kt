@@ -1,4 +1,4 @@
-package org.alram.lh.rental.controller
+package org.alram.lh.rental.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.hamcrest.CoreMatchers.equalTo

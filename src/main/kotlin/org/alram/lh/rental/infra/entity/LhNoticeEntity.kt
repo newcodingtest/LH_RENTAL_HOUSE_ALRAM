@@ -1,6 +1,7 @@
 package org.alram.lh.rental.infra.entity
 
 import jakarta.persistence.*
+import org.alram.lh.rental.api.response.RentalResponse
 import org.hibernate.annotations.ColumnDefault
 
 @Entity
@@ -21,7 +22,6 @@ class LhNoticeEntity(
 
     @Column(name = "city", nullable = false)
     var city: String
-
 ): BaseEntity()
 
 

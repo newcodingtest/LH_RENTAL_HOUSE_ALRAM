@@ -55,7 +55,7 @@ enum class LhApiParameters(val code: String, val description: String) {
 
             fun getCodeFromName(description: String): String{
                 return nameMap.get(description)?:
-                throw NoSuchElementException("일치하는 검색 유형코드가 없습니다.")
+                throw NoSuchElementException("일치하는 검색 유형코드가 없습니다.::: ${description}")
             }
 
             fun getNameFromCode(code: String): String{

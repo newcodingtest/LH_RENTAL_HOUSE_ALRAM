@@ -1,4 +1,4 @@
-package org.alram.lh.rental.controller.response
+package org.alram.lh.rental.api.response
 
 import org.alram.lh.rental.domain.LhNotice
 

@@ -28,12 +28,6 @@ import java.time.Duration
 @EnableRedisRepositories(basePackages = ["org.alram.lh.rental.infra.redis"])
 @Configuration
 class RedisConfiguration: CachingConfigurerSupport() {
-
-//    @Bean
-//    fun restTemplate(): RestTemplate {
-//        return RestTemplate()
-//    }
-
     @Bean
     fun restTemplate(): RestTemplate = RestTemplate()
 
@@ -78,7 +72,10 @@ class RedisConfiguration: CachingConfigurerSupport() {
             .serializeValuesWith(RedisSerializationContext
                 .SerializationPair
                 .fromSerializer(GenericJackson2JsonRedisSerializer()))
-            .entryTtl(Duration.ofHours(3))
+            // prod
+            // .entryTtl(Duration.ofHours(3))
+            // local
+            .entryTtl(Duration.ofMinutes(1))
 
         builder.cacheDefaults(configuration)
 

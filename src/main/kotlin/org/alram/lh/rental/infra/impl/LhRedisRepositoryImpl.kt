@@ -26,7 +26,7 @@ class LhRedisRepositoryImpl(
     override fun searchByCode(code: Long): LhNotice{
         val entity = lhRedisRepository
                                     .findById(code)
-                                    .get()?:throw NoSuchElementException("not exist data")
+                                    .get()
 
         return LhNotice(code = entity.code,
                         content = entity.content,
