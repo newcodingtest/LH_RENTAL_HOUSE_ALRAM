@@ -75,7 +75,10 @@ dependencies {
 
     //gson
     implementation ("com.google.code.gson:gson:2.10.1")
-    
+
+    //객체간 상호 변환을 위해 mapper 추가
+    implementation("org.modelmapper:modelmapper:2.4.4")
+
     // QueryDSL 의존성 추가
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
