@@ -45,17 +45,13 @@ class RentalController(
                                                                                                         .getCodeFromName(kindOfHouseName))));
     }
 
-    /**
-     * TODO: 검색 api
-     *
-     * */
     @GetMapping( value =["/public/house/search"],
                 produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun search(@RequestParam content :String): ResponseEntity<RentalResponse> {
-        //todo
-
-        return ResponseEntity.ok(null);
+    fun search(@RequestParam search :String): ResponseEntity<RentalResponse> {
+        return ResponseEntity.ok(RentalResponse
+                                    .fromModel(lhOpenApiService
+                                                    .searchNotices(search)));
 
     }
 

@@ -67,4 +67,23 @@ class RentalControllerTests {
             .andExpect(jsonPath("$.code", equalTo(HttpStatus.NOT_FOUND.value())))
             .andDo (print())
     }
+
+    @Test
+    fun `검색어 관련 공고문을 찾을 수 있다`(){
+        //given
+        val words = "경기도"
+        var url = "/public/house/search"
+
+        //when
+        val resultActions = mockMvc.perform(
+            get(url)
+                .param("search", words)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+
+        //then
+        resultActions
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andDo (print())
+    }
 }

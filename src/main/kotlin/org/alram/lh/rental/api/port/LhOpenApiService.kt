@@ -8,5 +8,5 @@ interface LhOpenApiService {
 
     fun getNumberOfNotices(): Int
 
-    fun searchNotices(search: String): RentalResponse
+    fun searchNotices(search: String): LhNotice
 }
