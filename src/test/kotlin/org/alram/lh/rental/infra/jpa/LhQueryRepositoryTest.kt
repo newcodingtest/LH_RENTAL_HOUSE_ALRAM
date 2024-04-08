@@ -2,6 +2,7 @@ package org.alram.lh.rental.infra.jpa
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.alram.lh.rental.infra.entity.QLhNoticeEntity
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -20,19 +21,17 @@ class LhQueryRepositoryTest {
 
     @Test
     fun searchTest(){
-        val lhNotice: QLhNoticeEntity = QLhNoticeEntity.lhNoticeEntity
         //given
-        println("경기")
+        val lhNotice: QLhNoticeEntity = QLhNoticeEntity.lhNoticeEntity
         val words = "경기";
 
         //when
         var expected = jpaQueryFactory.selectFrom(lhNotice)
             .where(lhNotice.content.contains(words).or(lhNotice.city.contains(words)))
-            .fetch()
-
-        //entityManager.flush()
+            .fetchOne()
 
         //then
+        Assertions.assertEquals(expected.city, words)
         println(expected)
     }
 }
