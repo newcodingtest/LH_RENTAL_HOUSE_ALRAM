@@ -2,7 +2,8 @@ package org.alram.lh.rental.domain
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-
+import org.alram.lh.rental.api.response.RentalResponse
+import org.alram.lh.rental.infra.entity.LhNoticeEntity
 
 
 /**
@@ -21,3 +22,16 @@ data class LhNotice @JsonCreator constructor (
      @JsonProperty("city")
      val city: String
 )
+
+{
+
+     companion object {
+          fun fromModel(lhNoticeEntity: LhNoticeEntity): LhNotice {
+               return LhNotice(code = lhNoticeEntity.code,
+                    content = lhNoticeEntity.content,
+                    cnt = lhNoticeEntity.cnt,
+                    city = lhNoticeEntity.city)
+          }
+     }
+
+}
