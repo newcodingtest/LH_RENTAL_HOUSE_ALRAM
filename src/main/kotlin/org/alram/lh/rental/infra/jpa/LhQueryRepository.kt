@@ -14,7 +14,7 @@ class LhQueryRepository(
 
     fun searchNoticeByContentAndCity(seach: String): LhNoticeEntity {
         return queryFactory.selectFrom(lhNotice)
-            .where(lhNotice.content.like(seach).and(lhNotice.city.like(seach)))
+            .where(lhNotice.content.contains(seach).and(lhNotice.city.contains(seach)))
             .fetchOne()?:throw NoSuchElementException();
     }
 }
