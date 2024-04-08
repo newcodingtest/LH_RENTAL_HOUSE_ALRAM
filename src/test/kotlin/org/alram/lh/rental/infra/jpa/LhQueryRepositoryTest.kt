@@ -20,15 +20,15 @@ class LhQueryRepositoryTest {
     private lateinit var jpaQueryFactory: JPAQueryFactory
 
     @Test
-    fun searchTest(){
+    fun `searchNoticeByContentAndCity메서드 테스트`(){
         //given
         val lhNotice: QLhNoticeEntity = QLhNoticeEntity.lhNoticeEntity
-        val words = "경기";
+        val words = "경기도";
 
         //when
         var expected = jpaQueryFactory.selectFrom(lhNotice)
             .where(lhNotice.content.contains(words).or(lhNotice.city.contains(words)))
-            .fetchOne()
+            .fetchOne()?:throw Exception("찾을 수 없음")
 
         //then
         Assertions.assertEquals(expected.city, words)

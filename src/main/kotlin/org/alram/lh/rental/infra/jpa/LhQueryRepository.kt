@@ -4,6 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.alram.lh.rental.infra.entity.LhNoticeEntity
 import org.alram.lh.rental.infra.entity.QLhNoticeEntity
 import org.springframework.stereotype.Repository
+import java.util.NoSuchElementException
 
 @Repository
 class LhQueryRepository(
@@ -11,9 +12,9 @@ class LhQueryRepository(
 )  {
     val lhNotice: QLhNoticeEntity = QLhNoticeEntity.lhNoticeEntity
 
-    fun searchNoticeByContentAndCity(seach: String): MutableList<LhNoticeEntity>? {
+    fun searchNoticeByContentAndCity(seach: String): LhNoticeEntity {
         return queryFactory.selectFrom(lhNotice)
             .where(lhNotice.content.like(seach).and(lhNotice.city.like(seach)))
-            .fetch()
+            .fetchOne()?:throw NoSuchElementException();
     }
 }
