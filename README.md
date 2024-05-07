@@ -1,5 +1,1 @@
-![image](https://github.com/newcodingtest/hexagonal-architecture/assets/57785267/f61a97d6-8050-4b84-83d7-d1c0348b2b79)
-
-
-공공API주소
-https://www.data.go.kr/data/15058530/openapi.do
+![image](https://github.com/newcodingtest/LH_RENTAL_HOUSE_ALRAM/assets/57785267/31ab1e4c-862f-4274-a142-1c1365f88ed6)
