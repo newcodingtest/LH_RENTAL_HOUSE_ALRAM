@@ -34,8 +34,8 @@ LH 청약 공고문 확인 절차가 복잡하여 부모님이 불편함을 느�
 
 <br><br>
 ### 실행 방법
-
-https://github.com/newcodingtest/LH_RENTAL_HOUSE_ALRAM/blob/master/src/main/kotlin/docker_compose/docker-compse.yml
+FE: https://github.com/newcodingtest/LH_RENTAL_HOUSE_ALRAM_FE  <br>
+docker-compose.yml: https://github.com/newcodingtest/LH_RENTAL_HOUSE_ALRAM/blob/master/src/main/kotlin/docker_compose/docker-compse.yml
 
 ```
 $ docker-compose up -d
