@@ -31,3 +31,6 @@ LH 청약 공고문 확인 절차가 복잡하여 부모님이 불편함을 느�
 지도UI도 추가로 보여줄 예정
 ![image](https://github.com/newcodingtest/LH_RENTAL_HOUSE_ALRAM/assets/57785267/ab075543-bac5-4f33-9f68-5dbbc270e969)
 
+
+<br><br>
+### 실행 방법
